@@ -1,6 +1,7 @@
 import './index.css'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictMode } from 'react'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { Toaster } from './components/ui/sonner'
@@ -27,6 +28,7 @@ createRoot(document.getElementById('root')).render(
       </AuthContextProvider>
 
       <Toaster />
+      <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   </StrictMode>
 )
