@@ -56,21 +56,19 @@ export const AuthContextProvider = ({ children }) => {
     init()
   }, [])
 
-  const signup = (data) => {
-    signupMutation.mutate(data, {
-      onSuccess: (createdUser) => {
-        setUser(createdUser)
-        setTokens(createdUser.tokens)
-        toast.success('Conta criada com sucesso!')
-      },
-      onError: () => {
-        toast.error(
-          'Erro ao criar a conta. Por favor, tente novamente mais tarde.'
-        )
-      },
-    })
+  const signup = async (data) => {
+    try {
+      const createdUser = await signupMutation.mutateAsync(data)
+      setUser(createdUser)
+      setTokens(createdUser.tokens)
+      toast.success('Conta criada com sucesso!')
+    } catch (error) {
+      toast.error(
+        'Erro ao criar a conta. Por favor, tente novamente mais tarde.'
+      )
+      console.error(error)
+    }
   }
-
   // Service Pattern/Layer
   // criar uma camada (arquivo, objeto) que é responsável por chamar uma API
 
@@ -81,6 +79,9 @@ export const AuthContextProvider = ({ children }) => {
       setTokens(loggedUser.tokens)
       toast.success('Login realizado com sucesso!')
     } catch (error) {
+      toast.error(
+        'Erro ao realizar o login. Por favor, verifique suas credenciais.'
+      )
       console.error(error)
     }
   }
